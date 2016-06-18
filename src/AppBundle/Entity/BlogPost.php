@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\BlogPostRepository")
  * @ORM\Table(name="blog_post")
  * @JMSSerializer\ExclusionPolicy("all")
  */

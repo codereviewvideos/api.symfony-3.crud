@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Repository\BlogPostRepository;
 use AppBundle\Form\Type\BlogPostType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
@@ -40,7 +41,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function getAction($blogPostId)
     {
-        return $this->getBlogPostRepository()->find($blogPostId);
+        return $this->getBlogPostRepository()->createFindOneByIdQuery($blogPostId)->getSingleResult();
     }
 
     /**
@@ -60,7 +61,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function cgetAction()
     {
-        return $this->getBlogPostRepository()->findAll();
+        return $this->getBlogPostRepository()->createFindAllQuery()->getResult();
     }
 
 
@@ -87,21 +88,22 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
 
         $form->submit($request->request->all());
 
-        if ($form->isValid()) {
-
-            $blogPost = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($blogPost);
-            $em->flush();
-
-            $routeOptions = [
-                'blogPostId' => $blogPost->getId(),
-                '_format'    => $request->get('_format'),
-            ];
-
-            return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_CREATED);
+        if (!$form->isValid()) {
+            return $form;
         }
+
+        $blogPost = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blogPost);
+        $em->flush();
+
+        $routeOptions = [
+            'blogPostId' => $blogPost->getId(),
+            '_format'    => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_CREATED);
     }
 
 
@@ -136,21 +138,22 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
 
         $form->submit($request->request->all());
 
-        if ($form->isValid()) {
-
-            $blogPost = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($blogPost);
-            $em->flush();
-
-            $routeOptions = [
-                'blogPostId' => $blogPost->getId(),
-                '_format'    => $request->get('_format'),
-            ];
-
-            return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_NO_CONTENT);
+        if (!$form->isValid()) {
+            return $form;
         }
+
+        $blogPost = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blogPost);
+        $em->flush();
+
+        $routeOptions = [
+            'blogPostId' => $blogPost->getId(),
+            '_format'    => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -184,12 +187,10 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return BlogPostRepository
      */
     private function getBlogPostRepository()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        return $em->getRepository('AppBundle:BlogPost');
+        return $this->get('crv.doctrine_entity_repository.blog_post');
     }
 }
