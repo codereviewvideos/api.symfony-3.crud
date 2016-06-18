@@ -32,6 +32,10 @@ class BlogPost implements \JsonSerializable
      */
     private $body;
 
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
