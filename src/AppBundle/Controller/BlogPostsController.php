@@ -44,7 +44,13 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function getAction(int $id)
     {
-        return $this->getBlogPostRepository()->createFindOneByIdQuery($id)->getSingleResult();
+        $blogPost = $this->getBlogPostRepository()->createFindOneByIdQuery($id)->getSingleResult();
+        
+        if ($blogPost === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+        
+        return $blogPost;
     }
 
     /**
