@@ -246,6 +246,4 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     {
         return $this->get('crv.doctrine_entity_repository.blog_post');
     }
-
-
 }
