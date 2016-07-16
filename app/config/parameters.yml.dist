@@ -24,3 +24,6 @@ parameters:
     # nelmio api docs
     api_name: 'Your API name'
     api_description: 'The full description of your API'
+
+    # jms serializer
+    jms_serializer.serialized_name_annotation_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy

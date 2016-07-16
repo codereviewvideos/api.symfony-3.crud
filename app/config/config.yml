@@ -127,3 +127,16 @@ knp_paginator:
         sort_field_name: sort          # sort field query parameter name
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+
+
+#JMS Serializer
+jms_serializer:
+    # uses IdenticalNamingStrategy - see parameters.yml
+    metadata:
+        directories:
+            KnpPaginatorBundle:
+                namespace_prefix: Knp\Bundle\PaginatorBundle
+                path: %kernel.root_dir%/config/serializer/KnpPaginatorBundle
+            KnpPager:
+                namespace_prefix: Knp\Component\Pager
+                path: %kernel.root_dir%/config/serializer/KnpPager

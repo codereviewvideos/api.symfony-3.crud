@@ -8,12 +8,7 @@ class BlogPostRepository extends EntityRepository
 {
     public function createFindAllQuery()
     {
-        return $this->_em->createQuery(
-            "
-            SELECT bp
-            FROM AppBundle:BlogPost bp
-            "
-        );
+        return $this->_em->getRepository('AppBundle:BlogPost')->createQueryBuilder('bp');
     }
 
 

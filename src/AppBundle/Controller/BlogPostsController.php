@@ -57,6 +57,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     /**
      * Gets a collection of BlogPosts
      *
+     * @param Request $request
      * @return array
      *
      * @ApiDoc(
@@ -67,9 +68,20 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      *     }
      * )
      */
-    public function cgetAction()
+    public function cgetAction(Request $request)
     {
-        return $this->getBlogPostRepository()->createFindAllQuery()->getResult();
+        $queryBuilder = $this->getBlogPostRepository()->createFindAllQuery();
+
+        if ($request->query->getAlnum('filter')) {
+            $queryBuilder->where('bp.title LIKE :title')
+                ->setParameter('title', '%' . $request->query->getAlnum('filter') . '%');
+        }
+
+        return $this->get('knp_paginator')->paginate(
+            $queryBuilder->getQuery(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            $request->query->getInt('limit', 10)/*limit per page*/
+        );
     }
 
     /**
