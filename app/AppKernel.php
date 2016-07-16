@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new \Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 
             new AppBundle\AppBundle(),
         ];
