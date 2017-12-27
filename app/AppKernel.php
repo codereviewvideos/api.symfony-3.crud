@@ -32,6 +32,10 @@ class AppKernel extends Kernel
             $bundles[] = new Bazinga\Bundle\FakerBundle\BazingaFakerBundle();
         }
 
+        if ('dev' === $this->getEnvironment()) {
+            $bundles[] = new Symfony\Bundle\WebServerBundle\WebServerBundle();
+        }
+
         return $bundles;
     }
 
