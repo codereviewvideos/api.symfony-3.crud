@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+    db:
+        image: mysql:5.7.20
+        ports:
+          - 3306:3306
+        environment:
+          - MYSQL_DATABASE=db_dev
+          - MYSQL_USER=dbuser
+          - MYSQL_PASSWORD=dbpassword
+          - MYSQL_ROOT_PASSWORD=root_dbpassword
